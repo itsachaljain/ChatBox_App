@@ -22,22 +22,9 @@ function LoginNavigatorScreen() {
         },
       }}
     >
+      <LoginNavigator.Screen name="Login" component={Login} />
       <LoginNavigator.Screen
-        name="Login"
-        component={Login}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <Icon
-              name="arrow-left"
-              type="font-awesome"
-              size={20}
-              color="white"
-            />
-          ),
-        })}
-      />
-      <LoginNavigator.Screen
-        name="Chatbox"
+        name="The Chatbox"
         component={Chatbox}
         options={{ headerTitle: "The Chatbox" }}
       />
