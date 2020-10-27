@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View, } from "react-native";
 import { Icon, Input, CheckBox, Button } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 
