@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { Text, ScrollView } from "react-native";
 
 class Chatbox extends Component {
   constructor(props) {
@@ -8,9 +8,9 @@ class Chatbox extends Component {
 
   render() {
     return (
-      <View>
+      <ScrollView style={{ backgroundColor: "aquamarine" }}>
         <Text>Hehe</Text>
-      </View>
+      </ScrollView>
     );
   }
 }
