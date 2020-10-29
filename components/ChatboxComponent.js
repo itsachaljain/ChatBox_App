@@ -6,7 +6,16 @@ import {
   KeyboardAvoidingView,
   View,
 } from "react-native";
-import { Icon } from "react-native-elements";
+import { Icon, Text } from "react-native-elements";
+
+
+function RenderMessages () {
+    return (
+      <Text style = {styles.bubble}>
+        Hey there! I am the new chat app ;)
+      </Text>
+    );
+}
 
 class Chatbox extends Component {
   constructor(props) {
@@ -34,6 +43,7 @@ class Chatbox extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <RenderMessages />
         <View style={styles.bottomView}>
           <KeyboardAvoidingView style={styles.footer}>
             <TextInput
@@ -53,7 +63,7 @@ class Chatbox extends Component {
               name="paper-plane"
               type="font-awesome"
               onPress={this.handleSubmit}
-            />
+            /> 
           </KeyboardAvoidingView>
         </View>
       </View>
@@ -78,6 +88,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingTop: Platform.OS === "ios" ? 20 : 0,
+    backgroundColor: "#DCF6C2"
   },
   bottomView: {
     width: "100%",
@@ -92,6 +103,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     flexDirection: "row",
+  },
+  bubble: {
+    padding: 10,
+    backgroundColor: '#A9A9A9',
+    borderWidth: 2,
+    borderColor: 'gray',
+    marginVertical: 10,
+    borderRadius: 25,
+    alignSelf: 'auto',
   },
 });
 
