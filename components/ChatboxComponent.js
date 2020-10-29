@@ -5,7 +5,6 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   View,
-  Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
 
