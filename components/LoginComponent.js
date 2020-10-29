@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { ScrollView, StyleSheet, View, Alert } from "react-native";
-import { Icon, Input, CheckBox, Button } from "react-native-elements";
+import { ScrollView, StyleSheet, View, Alert, KeyboardAvoidingView, TextInput, TouchableOpacity } from "react-native";
+import { Icon, Text, CheckBox, Button, } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 
 class Login extends Component {
@@ -45,58 +45,71 @@ class Login extends Component {
     return (
       <ScrollView style={{ backgroundColor: "aquamarine" }}>
         <View style={styles.container}>
-          <Input
-            placeholder="Username"
-            leftIcon={{ type: "font-awesome", name: "user-o" }}
-            onChangeText={(username) => this.setState({ username })}
-            value={this.state.username}
-            containerStyle={styles.formInput}
-          />
-          <Input
-            placeholder="Password"
-            leftIcon={{ type: "font-awesome", name: "key" }}
-            onChangeText={(password) => this.setState({ password })}
-            value={this.state.password}
-            containerStyle={styles.formInput}
-            secureTextEntry={true}
-          />
-          <CheckBox
-            title="remember me"
-            center
-            checked={this.state.remember}
-            onPress={() => this.setState({ remember: !this.state.remember })}
-            containerStyle={styles.formCheckbox}
-          />
-          <View style={styles.formButton}>
-            <Button
-              onPress={() => {
-                if (
-                  this.state.username === "Achal" &&
-                  this.state.password === "achal"
-                ) {
-                  this.props.navigation.navigate("The Chatbox");
-                } else {
-                  Alert.alert(
-                    "Please enter the correct username and password!"
-                  );
-                }
-                this.handleLogin();
-              }}
-              title="Login"
-              color="#128c7e"
-              icon={
-                <Icon
-                  name="sign-in"
-                  type="font-awesome"
-                  size={24}
-                  color="white"
-                />
-              }
-              buttonStyle={{
-                backgroundColor: "#128c7e",
-              }}
+          <KeyboardAvoidingView style = {styles.card}>
+            <View style={styles.formInput}>
+              <TextInput
+                placeholder="Username"
+                leftIcon={{ type: "font-awesome", name: "user-o" }}
+                onChangeText={(username) => this.setState({ username })}
+                value={this.state.username}
+              />
+            </View>
+            <View style = {styles.formInput}>
+              {/*<Icon
+                type= "font-awesome"
+                name= "key"
+              />*/}
+              <TextInput
+                placeholder="Password"
+                onChangeText={(password) => this.setState({ password })}
+                value={this.state.password}
+                secureTextEntry={true}
+              />
+            </View>
+            <TouchableOpacity>
+              <Text style = {styles.forgot}>
+                Forgot Password
+              </Text>
+            </TouchableOpacity>
+            <CheckBox
+              title="Remember me"
+              center
+              checked={this.state.remember}
+              onPress={() => this.setState({ remember: !this.state.remember })}
+              containerStyle={styles.formCheckbox}
             />
-          </View>
+            <View style={styles.formButton}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (
+                    this.state.username === "Achal" &&
+                    this.state.password === "achal"
+                  ) {
+                    this.props.navigation.navigate("The Chatbox");
+                  } else {
+                    Alert.alert(
+                      "Please enter the correct username and password!"
+                    );
+                  }
+                  this.handleLogin();
+                }}
+              >
+                <Text> LOGIN </Text>
+                {/*color="#128c7e"
+                icon={
+                  <Icon
+                    name="sign-in"
+                    type="font-awesome"
+                    size={24}
+                    color="white"
+                  />
+                }
+                buttonStyle={{
+                  backgroundColor: "#128c7e",
+                }*/}
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
         </View>
       </ScrollView>
     );
@@ -107,10 +120,16 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     margin: 5,
-    marginLeft: 0,
   },
   formInput: {
-    margin: 10,
+    width:"90%",
+    backgroundColor:"pink",
+    borderRadius:25,
+    height: 55,
+    marginBottom:20,
+    justifyContent:"center",
+    padding:20,
+    alignSelf: "center",
   },
   formCheckbox: {
     margin: 30,
@@ -119,7 +138,27 @@ const styles = StyleSheet.create({
   },
   formButton: {
     margin: 40,
+    borderRadius: 25,
+    width: "70%",
+    backgroundColor: "#128c7e",
+    justifyContent : "center",
+    alignItems: "center",
+    height: 50,
+    fontWeight: "bold",
   },
+  card: {
+    borderRadius: 15,
+    backgroundColor: "aquamarine",
+    padding: 20,
+    marginTop: 20,
+  },
+  forgot: { 
+    alignSelf: "center",
+    padding : 5, 
+    color : "black",
+    fontSize : 12,
+    fontWeight: "bold",
+  }
 });
 
 export default Login;
