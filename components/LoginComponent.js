@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, StyleSheet, View, } from "react-native";
+import { ScrollView, StyleSheet, View, Alert } from "react-native";
 import { Icon, Input, CheckBox, Button } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 
@@ -58,6 +58,7 @@ class Login extends Component {
             onChangeText={(password) => this.setState({ password })}
             value={this.state.password}
             containerStyle={styles.formInput}
+            secureTextEntry={true}
           />
           <CheckBox
             title="remember me"
@@ -68,7 +69,19 @@ class Login extends Component {
           />
           <View style={styles.formButton}>
             <Button
-              onPress={() => this.props.navigation.navigate("The Chatbox")}
+              onPress={() => {
+                if (
+                  this.state.username === "Achal" &&
+                  this.state.password === "achal"
+                ) {
+                  this.props.navigation.navigate("The Chatbox");
+                } else {
+                  Alert.alert(
+                    "Please enter the correct username and password!"
+                  );
+                }
+                this.handleLogin();
+              }}
               title="Login"
               color="#128c7e"
               icon={
