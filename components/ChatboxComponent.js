@@ -8,13 +8,14 @@ import {
 } from "react-native";
 import { Icon, Text } from "react-native-elements";
 
-
-function RenderMessages () {
-    return (
-      <Text style = {styles.bubble}>
-        Hey there! I am the new chat app ;)
-      </Text>
-    );
+function RenderMessages() {
+  return (
+    <View>
+      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
+      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
+      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
+    </View>
+  );
 }
 
 class Chatbox extends Component {
@@ -43,7 +44,11 @@ class Chatbox extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <RenderMessages />
+        <View style={styles.messageBottom}>
+          <ScrollView>
+            <RenderMessages />
+          </ScrollView>
+        </View>
         <View style={styles.bottomView}>
           <KeyboardAvoidingView style={styles.footer}>
             <TextInput
@@ -63,7 +68,7 @@ class Chatbox extends Component {
               name="paper-plane"
               type="font-awesome"
               onPress={this.handleSubmit}
-            /> 
+            />
           </KeyboardAvoidingView>
         </View>
       </View>
@@ -85,10 +90,10 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems: "flex-end",
     justifyContent: "center",
     paddingTop: Platform.OS === "ios" ? 20 : 0,
-    backgroundColor: "#DCF6C2"
+    backgroundColor: "#DCF6C2",
   },
   bottomView: {
     width: "100%",
@@ -106,12 +111,17 @@ const styles = StyleSheet.create({
   },
   bubble: {
     padding: 10,
-    backgroundColor: '#A9A9A9',
+    backgroundColor: "#A9A9A9",
     borderWidth: 2,
-    borderColor: 'gray',
+    borderColor: "gray",
     marginVertical: 10,
     borderRadius: 25,
-    alignSelf: 'auto',
+    alignSelf: "auto",
+    marginRight: 10,
+  },
+  messageBottom: {
+    position: "absolute",
+    bottom: 50,
   },
 });
 
