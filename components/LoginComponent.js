@@ -1,6 +1,15 @@
 import React, { Component } from "react";
-import { ScrollView, StyleSheet, View, Alert, KeyboardAvoidingView, TextInput, TouchableOpacity } from "react-native";
-import { Icon, Text, CheckBox, Button, } from "react-native-elements";
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Alert,
+  KeyboardAvoidingView,
+  TextInput,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
+import { Text, CheckBox, Input } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 
 class Login extends Component {
@@ -9,7 +18,9 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
+      answer: "",
       remember: false,
+      showModal: false,
     };
   }
 
@@ -41,24 +52,23 @@ class Login extends Component {
     }
   }
 
+  toggleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
+  };
+
   render() {
     return (
       <ScrollView style={{ backgroundColor: "aquamarine" }}>
         <View style={styles.container}>
-          <KeyboardAvoidingView style = {styles.card}>
+          <KeyboardAvoidingView style={styles.card}>
             <View style={styles.formInput}>
               <TextInput
                 placeholder="Username"
-                leftIcon={{ type: "font-awesome", name: "user-o" }}
                 onChangeText={(username) => this.setState({ username })}
                 value={this.state.username}
               />
             </View>
-            <View style = {styles.formInput}>
-              {/*<Icon
-                type= "font-awesome"
-                name= "key"
-              />*/}
+            <View style={styles.formInput}>
               <TextInput
                 placeholder="Password"
                 onChangeText={(password) => this.setState({ password })}
@@ -67,9 +77,42 @@ class Login extends Component {
               />
             </View>
             <TouchableOpacity>
-              <Text style = {styles.forgot}>
-                Forgot Password
-              </Text>
+              <Modal
+                visible={this.state.showModal}
+                onDismiss={() => this.toggleModal()}
+                onRequestClose={() => {
+                  this.toggleModal();
+                }}
+              >
+                <View
+                  style={{
+                    justifyContent: "center",
+                    margin: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      margin: 50,
+                      alignItems: "center",
+                    }}
+                  >
+                    Q: Who is Your Best Friend?
+                  </Text>
+                  <View style={styles.formInput}>
+                    <TextInput
+                      placeholder="Answer"
+                      onChangeText={(answer) => this.setState({ answer })}
+                      value={this.state.answer}
+                    />
+                  </View>
+                </View>
+              </Modal>
+              <View>
+                <Text onPress={this.toggleModal} style={styles.forgot}>
+                  Forgot Password?
+                </Text>
+              </View>
             </TouchableOpacity>
             <CheckBox
               title="Remember me"
@@ -78,37 +121,26 @@ class Login extends Component {
               onPress={() => this.setState({ remember: !this.state.remember })}
               containerStyle={styles.formCheckbox}
             />
-            <View style={styles.formButton}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (
-                    this.state.username === "Achal" &&
-                    this.state.password === "achal"
-                  ) {
-                    this.props.navigation.navigate("The Chatbox");
-                  } else {
-                    Alert.alert(
-                      "Please enter the correct username and password!"
-                    );
-                  }
-                  this.handleLogin();
-                }}
-              >
-                <Text> LOGIN </Text>
-                {/*color="#128c7e"
-                icon={
-                  <Icon
-                    name="sign-in"
-                    type="font-awesome"
-                    size={24}
-                    color="white"
-                  />
+
+            <TouchableOpacity
+              onPress={() => {
+                if (
+                  this.state.username === "Achal" &&
+                  this.state.password === "achal"
+                ) {
+                  this.props.navigation.navigate("The Chatbox");
+                } else {
+                  Alert.alert(
+                    "Please enter the correct username and password!"
+                  );
                 }
-                buttonStyle={{
-                  backgroundColor: "#128c7e",
-                }*/}
-              </TouchableOpacity>
-            </View>
+                this.handleLogin();
+              }}
+            >
+              <View style={styles.formButton}>
+                <Text style={{}}> LOGIN </Text>
+              </View>
+            </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
@@ -122,13 +154,13 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   formInput: {
-    width:"90%",
-    backgroundColor:"pink",
-    borderRadius:25,
+    width: "90%",
+    backgroundColor: "pink",
+    borderRadius: 25,
     height: 55,
-    marginBottom:20,
-    justifyContent:"center",
-    padding:20,
+    marginBottom: 20,
+    justifyContent: "center",
+    padding: 20,
     alignSelf: "center",
   },
   formCheckbox: {
@@ -141,7 +173,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: "70%",
     backgroundColor: "#128c7e",
-    justifyContent : "center",
+    justifyContent: "center",
     alignItems: "center",
     height: 50,
     fontWeight: "bold",
@@ -152,13 +184,13 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 20,
   },
-  forgot: { 
+  forgot: {
     alignSelf: "center",
-    padding : 5, 
-    color : "black",
-    fontSize : 12,
+    padding: 5,
+    color: "black",
+    fontSize: 12,
     fontWeight: "bold",
-  }
+  },
 });
 
 export default Login;
