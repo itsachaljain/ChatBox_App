@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
   Text,
+  SectionList,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { connect } from "react-redux";
@@ -18,11 +19,26 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  postMessage: () => dispatch(postMessage);
+  postMessage: (message) => dispatch(postMessage(message));
 };
 
-function RenderMessages(props) {
-  return <Text>Haha</Text>;
+function RenderMessages({ messages }) {
+  if (messages != null) {
+    return (
+      <View>
+        {messages.map((message)=>{
+          return (
+            <SectionList>
+              <Text style = {styles.bubble}>
+                {message.message}
+              </Text>
+            </SectionList>
+          )
+        })}
+      </View>
+    )
+  }
+  //return <Text>Haha</Text>;
 }
 
 class Chatbox extends Component {
@@ -41,6 +57,7 @@ class Chatbox extends Component {
   };
 
   handleSubmit = () => {
+    this.props.postMessage(this.state.message);
     if (this.state.message === "") {
       this.setState({ message: "" });
     } else {
@@ -57,13 +74,15 @@ class Chatbox extends Component {
       <View style={styles.container}>
         <View style={styles.messageBottom}>
           <ScrollView>
-            <RenderMessages />
+            <RenderMessages 
+              messages = {this.props.messages}
+            />
           </ScrollView>
         </View>
         <View style={styles.bottomView}>
           <KeyboardAvoidingView style={styles.footer}>
             <TextInput
-              value={this.state.messages}
+              value={this.state.message}
               placeholder="Type a message"
               style={styles.messages}
               onChangeText={this.handleOnChange}
