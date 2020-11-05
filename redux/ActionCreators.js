@@ -78,35 +78,3 @@ export const addMessages = (messages) => ({
   type: ActionTypes.LOAD_MESSAGES,
   payload: messages,
 });
-
-export const deleteMessage = (id) => (dispatch) => {
-  return fetch(baseUrl + "messages/" + id, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "same-origin",
-  })
-    .then(
-      (response) => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error(
-            "Error " + response.status + ": " + response.statusText
-          );
-          error.response = response;
-          throw error;
-        }
-      },
-      (error) => {
-        throw error;
-      }
-    )
-    .then((response) => response.json())
-    .then((messages) => {
-      console.log("Message Deleted", messages);
-      dispatch(addMessage(messages));
-    })
-    .catch((error) => dispatch(messagesFailed(error.message)));
-};
