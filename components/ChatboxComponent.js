@@ -2,20 +2,27 @@ import React, { Component } from "react";
 import {
   ScrollView,
   TextInput,
-  StyleSheet,
   KeyboardAvoidingView,
+  StyleSheet,
   View,
+  Text,
 } from "react-native";
-import { Icon, Text } from "react-native-elements";
+import { Icon } from "react-native-elements";
+import { connect } from "react-redux";
+import { postMessage } from "../redux/ActionCreators";
 
-function RenderMessages() {
-  return (
-    <View>
-      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
-      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
-      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
-    </View>
-  );
+const mapStateToProps = (state) => {
+  return {
+    messages: state.messages,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  postMessage: () => dispatch(postMessage);
+};
+
+function RenderMessages(props) {
+  return <Text>Haha</Text>;
 }
 
 class Chatbox extends Component {
@@ -39,6 +46,10 @@ class Chatbox extends Component {
     } else {
       this.setState({ message: "" });
     }
+  };
+
+  handleMessage = () => {
+    this.props.postMessage();
   };
 
   render() {
@@ -125,4 +136,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Chatbox;
+export default connect(mapStateToProps, mapDispatchToProps)(Chatbox);
