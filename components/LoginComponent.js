@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-import { Text, CheckBox, } from "react-native-elements";
+import { Text, CheckBox } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 
 class Login extends Component {
@@ -102,32 +102,27 @@ class Login extends Component {
                         value={this.state.answer}
                       />
                     </View>
-                    <View style = {{margin: 10}}>
-                      <TouchableOpacity 
-                        onPress = {() => {
-                          if (this.state.answer === "Jatin"){
+                    <View style={{ margin: 10 }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          if (this.state.answer === "Jatin") {
                             this.props.navigation.navigate("The Chatbox");
                             this.toggleModal();
-                          }
-                          else {
-                            Alert.alert("You have the wrong bestfriend :) ")
+                          } else {
+                            Alert.alert("The Answer is incorrect!");
                           }
                         }}
-                        style = {styles.modalbutton1}
+                        style={styles.modalbutton1}
                       >
-                        <Text>
-                          SUBMIT
-                        </Text>
+                        <Text>SUBMIT</Text>
                       </TouchableOpacity>
                     </View>
-                    <View style = {{margin: 10}}>
-                      <TouchableOpacity 
+                    <View style={{ margin: 10 }}>
+                      <TouchableOpacity
                         onPress={() => this.toggleModal()}
-                        style = {styles.modalbutton2}
+                        style={styles.modalbutton2}
                       >
-                        <Text>
-                          CANCEL
-                        </Text>
+                        <Text>CANCEL</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -219,7 +214,7 @@ const styles = StyleSheet.create({
   modal: {
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "#128c7e"
+    backgroundColor: "#128c7e",
   },
   modalview: {
     backgroundColor: "aquamarine",
@@ -228,34 +223,34 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
   modalbutton1: {
     width: "70%",
     backgroundColor: "#f194ff",
     borderRadius: 15,
     alignItems: "center",
-    alignSelf:"center",
+    alignSelf: "center",
     height: 40,
     fontWeight: "bold",
     justifyContent: "center",
     elevation: 5,
   },
-  modalbutton2 : {
+  modalbutton2: {
     width: "70%",
     backgroundColor: "grey",
     borderRadius: 15,
     alignItems: "center",
-    alignSelf:"center",
+    alignSelf: "center",
     height: 40,
     fontWeight: "bold",
     justifyContent: "center",
     elevation: 5,
-  }
+  },
 });
 
 export default Login;
