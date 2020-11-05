@@ -5,6 +5,18 @@ import { Icon } from "react-native-elements";
 import Chatbox from "./ChatboxComponent";
 import Login from "./LoginComponent";
 import { View, StatusBar } from "react-native";
+import { connect } from "react-redux";
+import { fetchMessages } from "../redux/ActionCreators";
+
+const mapStateToProps = (state) => {
+  return {
+    messages: state.messages,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchMessages: () => dispatch(fetchMessages()),
+});
 
 const LoginNavigator = createStackNavigator();
 
@@ -33,8 +45,8 @@ function LoginNavigatorScreen() {
 }
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    this.props.fetchMessages();
   }
 
   render() {
@@ -52,4 +64,4 @@ class Main extends Component {
     );
   }
 }
-export default Main;
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
