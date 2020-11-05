@@ -8,6 +8,7 @@ import {
   Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import { FlatList } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { postMessage } from "../redux/ActionCreators";
 
@@ -17,12 +18,18 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  postMessage: () => dispatch(postMessage);
-};
+const mapDispatchToProps = (dispatch) => ({
+  postMessage: (message) => dispatch(postMessage(message)),
+});
 
 function RenderMessages(props) {
-  return <Text>Haha</Text>;
+  const messages = props.messages;
+
+  return (
+    <View>
+      <FlatList data={messages} />
+    </View>
+  );
 }
 
 class Chatbox extends Component {
@@ -49,7 +56,7 @@ class Chatbox extends Component {
   };
 
   handleMessage = () => {
-    this.props.postMessage();
+    this.props.postMessage(this.state.message);
   };
 
   render() {

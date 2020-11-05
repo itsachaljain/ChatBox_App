@@ -1,12 +1,14 @@
 import * as ActionTypes from "./ActionTypes";
 
-export const Messages = (state = { errMess: null, messages: [] }, action) => {
+export const messages = (state = { errMess: null, messages: [] }, action) => {
   switch (action.type) {
     case ActionTypes.LOAD_MESSAGES:
       return { ...state, errMess: null, messages: action.payload };
 
     case ActionTypes.POST_MESSAGE:
-      return { ...state, messages: state.messages.concat(action.payload) };
+      var message = action.payload;
+      message.id = state.messages.length;
+      return { ...state, messages: state.messages.concat(message) };
 
     case ActionTypes.FAILED_MESSAGES:
       return { ...state, errMess: action.payload };

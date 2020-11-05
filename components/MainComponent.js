@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Icon } from "react-native-elements";
 import Chatbox from "./ChatboxComponent";
 import Login from "./LoginComponent";
-import { View, StatusBar, StyleSheet } from "react-native";
+import { View, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { fetchMessages } from "../redux/ActionCreators";
 
@@ -45,6 +44,10 @@ function LoginNavigatorScreen() {
 }
 
 class Main extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
     this.props.fetchMessages();
   }
