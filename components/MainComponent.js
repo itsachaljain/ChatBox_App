@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Icon } from "react-native-elements";
 import Chatbox from "./ChatboxComponent";
 import Login from "./LoginComponent";
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { fetchMessages } from "../redux/ActionCreators";
 
