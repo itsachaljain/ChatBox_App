@@ -7,16 +7,6 @@ import { View, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { fetchMessages } from "../redux/ActionCreators";
 
-const mapStateToProps = (state) => {
-  return {
-    messages: state.messages,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchMessages: () => dispatch(fetchMessages()),
-});
-
 const LoginNavigator = createStackNavigator();
 
 function LoginNavigatorScreen() {
@@ -48,10 +38,6 @@ class Main extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.fetchMessages();
-  }
-
   render() {
     return (
       <View
@@ -67,4 +53,4 @@ class Main extends Component {
     );
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;

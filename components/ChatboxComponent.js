@@ -8,27 +8,14 @@ import {
   Text,
   SectionList,
 } from "react-native";
-import { Icon, Text } from "react-native-elements";
+import { Icon } from "react-native-elements";
 
-const mapDispatchToProps = (dispatch) => {
-  postMessage: (message) => dispatch(postMessage(message));
-};
-
-function RenderMessages({ messages }) {
-  if (messages != null) {
-    return (
-      <View>
-        {messages.map((message) => {
-          return (
-            <SectionList>
-              <Text style={styles.bubble}>{message.message}</Text>
-            </SectionList>
-          );
-        })}
-      </View>
-    );
-  }
-  //return <Text>Haha</Text>;
+function RenderMessages() {
+  return (
+    <View style={styles.bubble}>
+      <Text>Haha</Text>
+    </View>
+  );
 }
 
 class Chatbox extends Component {
@@ -47,7 +34,6 @@ class Chatbox extends Component {
   };
 
   handleSubmit = () => {
-    this.props.postMessage(this.state.message);
     if (this.state.message === "") {
       this.setState({ message: "" });
     } else {
@@ -60,7 +46,7 @@ class Chatbox extends Component {
       <View style={styles.container}>
         <View style={styles.messageBottom}>
           <ScrollView>
-            <RenderMessages messages={this.props.messages} />
+            <RenderMessages />
           </ScrollView>
         </View>
         <View style={styles.bottomView}>
