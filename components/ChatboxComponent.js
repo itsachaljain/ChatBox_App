@@ -20,34 +20,32 @@ class Chatbox extends Component {
     this.RenderMessages = this.RenderMessages.bind(this);
   }
 
-  async RenderMessages() {
-      fetch("http://localhost:3001/messages", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+  componentDidMount() {
+    fetch("http://192.168.1.7:3001/messages", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error" + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
       })
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.ok) {
-            return response;
-          } else {
-            var error = new Error(
-              "Error" + response.status + ": " + response.statusText
-            );
-            error.response = response;
-            throw error;
-          }
-        })
-        .catch((error) => {
-          console.log("Error: " + error.message);
-        });
-      this.setState({ messages: response });
-    }
-
-    componentDidMount() {
-      this.RenderMessages();
-    }
+      .then((response) => response.json())
+      .then((response) => {
+        this.setState({ messages: response });
+      })
+      .catch((error) => {
+        console.log("Error: " + error.message);
+      });
+  }
 
   handleOnChange = (event) => {
     this.setState({
@@ -64,13 +62,11 @@ class Chatbox extends Component {
   };
 
   render() {
-    const {messages} = this.state.messages
     return (
       <View style={styles.container}>
         <View style={styles.messageBottom}>
           <ScrollView>
             <View style={styles.bubble}>{this.state.messages}</View>
-            
           </ScrollView>
         </View>
         <View style={styles.bottomView}>
