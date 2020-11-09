@@ -9,21 +9,41 @@ import {
 } from "react-native";
 import { Icon } from "react-native-elements";
 
-function RenderMessages() {
-  return (
-    <View style={styles.bubble}>
-      <Text>Haha</Text>
-    </View>
-  );
-}
-
 class Chatbox extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       message: "",
+      messages: [],
     };
+  }
+
+  componentDidMount() {
+    fetch("http://192.168.1.7:3001/messages", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error" + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        this.setState({ messages: response });
+      })
+      .catch((error) => {
+        console.log("Error: " + error.message);
+      });
   }
 
   handleOnChange = (event) => {
@@ -45,7 +65,7 @@ class Chatbox extends Component {
       <View style={styles.container}>
         <View style={styles.messageBottom}>
           <ScrollView>
-            <RenderMessages />
+            <View style={styles.bubble}>{this.state.messages}</View>
           </ScrollView>
         </View>
         <View style={styles.bottomView}>
