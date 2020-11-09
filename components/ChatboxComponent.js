@@ -2,32 +2,17 @@ import React, { Component } from "react";
 import {
   ScrollView,
   TextInput,
-  KeyboardAvoidingView,
   StyleSheet,
+  KeyboardAvoidingView,
   View,
   Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import { FlatList } from "react-native-gesture-handler";
-import { connect } from "react-redux";
-import { postMessage } from "../redux/ActionCreators";
 
-const mapStateToProps = (state) => {
-  return {
-    messages: state.messages,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  postMessage: (message) => dispatch(postMessage(message)),
-});
-
-function RenderMessages(props) {
-  const messages = props.messages;
-
+function RenderMessages() {
   return (
-    <View>
-      <FlatList data={messages} />
+    <View style={styles.bubble}>
+      <Text>Haha</Text>
     </View>
   );
 }
@@ -55,10 +40,6 @@ class Chatbox extends Component {
     }
   };
 
-  handleMessage = () => {
-    this.props.postMessage(this.state.message);
-  };
-
   render() {
     return (
       <View style={styles.container}>
@@ -70,7 +51,7 @@ class Chatbox extends Component {
         <View style={styles.bottomView}>
           <KeyboardAvoidingView style={styles.footer}>
             <TextInput
-              value={this.state.messages}
+              value={this.state.message}
               placeholder="Type a message"
               style={styles.messages}
               onChangeText={this.handleOnChange}
@@ -143,4 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chatbox);
+export default Chatbox;
