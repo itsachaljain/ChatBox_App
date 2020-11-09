@@ -2,32 +2,18 @@ import React, { Component } from "react";
 import {
   ScrollView,
   TextInput,
-  KeyboardAvoidingView,
   StyleSheet,
+  KeyboardAvoidingView,
   View,
-  Text,
 } from "react-native";
-import { Icon } from "react-native-elements";
-import { FlatList } from "react-native-gesture-handler";
-import { connect } from "react-redux";
-import { postMessage } from "../redux/ActionCreators";
+import { Icon, Text } from "react-native-elements";
 
-const mapStateToProps = (state) => {
-  return {
-    messages: state.messages,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  postMessage: (message) => dispatch(postMessage(message)),
-});
-
-function RenderMessages(props) {
-  const messages = props.messages;
-
+function RenderMessages() {
   return (
     <View>
-      <FlatList data={messages} />
+      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
+      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
+      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
     </View>
   );
 }
@@ -53,10 +39,6 @@ class Chatbox extends Component {
     } else {
       this.setState({ message: "" });
     }
-  };
-
-  handleMessage = () => {
-    this.props.postMessage(this.state.message);
   };
 
   render() {
@@ -143,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chatbox);
+export default Chatbox;
