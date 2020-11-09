@@ -9,8 +9,8 @@ import {
   SectionList,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import { connect } from "react-redux";
-import { postMessage } from "../redux/ActionCreators";
+//import { connect } from "react-redux";
+//import { postMessage } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
   return {
