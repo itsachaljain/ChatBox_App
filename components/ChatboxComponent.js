@@ -9,8 +9,9 @@ import {
   SectionList,
 } from "react-native";
 import { Icon } from "react-native-elements";
-//import { connect } from "react-redux";
-//import { postMessage } from "../redux/ActionCreators";
+import { FlatList } from "react-native-gesture-handler";
+import { connect } from "react-redux";
+import { postMessage } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
   return {
@@ -18,27 +19,18 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  postMessage: (message) => dispatch(postMessage(message));
-};
+const mapDispatchToProps = (dispatch) => ({
+  postMessage: (message) => dispatch(postMessage(message)),
+});
 
-function RenderMessages({ messages }) {
-  if (messages != null) {
-    return (
-      <View>
-        {messages.map((message)=>{
-          return (
-            <SectionList>
-              <Text style = {styles.bubble}>
-                {message.message}
-              </Text>
-            </SectionList>
-          )
-        })}
-      </View>
-    )
-  }
-  //return <Text>Haha</Text>;
+function RenderMessages(props) {
+  const messages = props.messages;
+
+  return (
+    <View>
+      <FlatList data={messages} />
+    </View>
+  );
 }
 
 class Chatbox extends Component {
@@ -66,7 +58,7 @@ class Chatbox extends Component {
   };
 
   handleMessage = () => {
-    this.props.postMessage();
+    this.props.postMessage(this.state.message);
   };
 
   render() {
