@@ -5,17 +5,30 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   View,
+  Text,
+  SectionList,
 } from "react-native";
 import { Icon, Text } from "react-native-elements";
 
-function RenderMessages() {
-  return (
-    <View>
-      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
-      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
-      <Text style={styles.bubble}>Hey there! I am the new chat app ;)</Text>
-    </View>
-  );
+const mapDispatchToProps = (dispatch) => {
+  postMessage: (message) => dispatch(postMessage(message));
+};
+
+function RenderMessages({ messages }) {
+  if (messages != null) {
+    return (
+      <View>
+        {messages.map((message) => {
+          return (
+            <SectionList>
+              <Text style={styles.bubble}>{message.message}</Text>
+            </SectionList>
+          );
+        })}
+      </View>
+    );
+  }
+  //return <Text>Haha</Text>;
 }
 
 class Chatbox extends Component {
@@ -34,6 +47,7 @@ class Chatbox extends Component {
   };
 
   handleSubmit = () => {
+    this.props.postMessage(this.state.message);
     if (this.state.message === "") {
       this.setState({ message: "" });
     } else {
@@ -46,13 +60,13 @@ class Chatbox extends Component {
       <View style={styles.container}>
         <View style={styles.messageBottom}>
           <ScrollView>
-            <RenderMessages />
+            <RenderMessages messages={this.props.messages} />
           </ScrollView>
         </View>
         <View style={styles.bottomView}>
           <KeyboardAvoidingView style={styles.footer}>
             <TextInput
-              value={this.state.messages}
+              value={this.state.message}
               placeholder="Type a message"
               style={styles.messages}
               onChangeText={this.handleOnChange}
