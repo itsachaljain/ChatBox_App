@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { Icon } from "react-native-elements";
 
 class Register extends Component {
@@ -9,46 +9,43 @@ class Register extends Component {
 
   render() {
     return (
-      <View style = {styles.container}>
-        <TouchableOpacity style = {styles.formButton}>
+      <View style={styles.container}>
+        <Text style={{ marginVertical: 10 }}></Text>
+        <Image source={require("../assets/logo.png")} />
+        <Text style={{ marginVertical: 40 }}></Text>
+        <TouchableOpacity style={styles.formButton}>
           <Icon
             reverse
-            name = "mobile"
-            type = "font-awesome"
-            color = "#128c7e"
-            size = {23}
-            />
-          <Text style = {styles.text}>LOG IN WITH PHONE NO.</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style = {styles.formButton}>
-          <Icon 
-            reverse
-            name = "envelope"
-            type = "font-awesome"
-            color = "#128c79"
-            size = {20}
+            name="mobile"
+            type="font-awesome"
+            color="#128c7e"
+            size={23}
           />
-          <Text style = {styles.text}>
-            LOG IN WITH E-MAIL
-          </Text>
+          <Text style={styles.text}>LOG IN WITH PHONE NUMBER</Text>
         </TouchableOpacity>
-
+        <TouchableOpacity style={styles.formButton}>
+          <Icon
+            reverse
+            name="envelope"
+            type="font-awesome"
+            color="#128c7e"
+            size={20}
+          />
+          <Text style={styles.text}>LOG IN WITH E-MAIL ADDRESS</Text>
+        </TouchableOpacity>
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
     alignItems: "center",
     flex: 1,
     backgroundColor: "aquamarine",
   },
   text: {
     fontStyle: "normal",
-    fontFamily: "Montserrat",
-    fontWeight: "bold"
   },
   formButton: {
     margin: 40,

@@ -8,6 +8,7 @@ import {
   Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import { useScreens } from "react-native-screens";
 import { db } from "../config";
 
 class Chatbox extends Component {
@@ -121,7 +122,6 @@ class Chatbox extends Component {
               reverse
               size={20}
               color="#128c7e"
-              style={{}}
               name="paper-plane"
               type="font-awesome"
               onPress={this.handleSubmit}
@@ -164,6 +164,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     flexDirection: "row",
+    marginLeft: 10,
+    marginBottom: 7,
   },
   bubble: {
     padding: 10,
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#A9A9A9",
     borderWidth: 2,
     borderColor: "gray",
-    marginVertical: 5,
+    marginBottom: 15,
     borderRadius: 25,
     alignSelf: "auto",
     marginRight: 10,
