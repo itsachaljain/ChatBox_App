@@ -158,7 +158,14 @@ class Login extends Component {
               }}
             >
               <View style={styles.formButton}>
-                <Text style={{}}> LOGIN </Text>
+                <Text> LOGIN </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Register")}
+            >
+              <View>
+                <Text style={styles.forgot}>New here? Register now!</Text>
               </View>
             </TouchableOpacity>
           </KeyboardAvoidingView>
