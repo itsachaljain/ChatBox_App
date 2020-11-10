@@ -12,17 +12,17 @@ class Register extends Component {
       <View style = {styles.container}>
         <TouchableOpacity style = {styles.formButton}>
           <Icon
-            raised
+            reverse
             name = "mobile"
             type = "font-awesome"
             color = "#128c7e"
-            size = {20}
+            size = {23}
             />
           <Text style = {styles.text}>LOG IN WITH PHONE NO.</Text>
         </TouchableOpacity>
         <TouchableOpacity style = {styles.formButton}>
           <Icon 
-            raised
+            reverse
             name = "envelope"
             type = "font-awesome"
             color = "#128c79"
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   text: {
     fontStyle: "normal",
     fontFamily: "Montserrat",
+    fontWeight: "bold"
   },
   formButton: {
     margin: 40,
@@ -58,7 +59,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 50,
     flexDirection: "row",
-    fontWeight: "bold",
   },
 });
 
