@@ -27,7 +27,6 @@ class Chatbox extends Component {
         },
       ],
     };
-    this.RenderMessages = this.RenderMessages.bind(this);
   }
 
   componentDidMount() {

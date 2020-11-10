@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 50,
     fontWeight: "bold",
+    alignSelf: "center"
   },
   card: {
     borderRadius: 15,

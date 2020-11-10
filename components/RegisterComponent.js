@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { Icon } from "react-native-elements";
 
 class Register extends Component {
   constructor(props) {
@@ -7,38 +8,56 @@ class Register extends Component {
   }
 
   render() {
-    return <View></View>;
+    return (
+      <View style = {styles.container}>
+        <TouchableOpacity style = {styles.formButton}>
+          <Icon
+            raised
+            name = "mobile"
+            type = "font-awesome"
+            color = "#128c7e"
+            size = {20}
+            />
+          <Text style = {styles.text}>LOG IN WITH PHONE NO.</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style = {styles.formButton}>
+          <Icon 
+            raised
+            name = "envelope"
+            type = "font-awesome"
+            color = "#128c79"
+            size = {20}
+          />
+          <Text style = {styles.text}>
+            LOG IN WITH E-MAIL
+          </Text>
+        </TouchableOpacity>
+
+      </View>
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    margin: 5,
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: "aquamarine",
   },
-  formInput: {
-    width: "90%",
-    backgroundColor: "pink",
-    borderRadius: 25,
-    height: 55,
-    marginBottom: 20,
-    justifyContent: "center",
-    padding: 20,
-    alignSelf: "center",
-  },
-  formCheckbox: {
-    margin: 30,
-    backgroundColor: null,
-    borderColor: "aquamarine",
+  text: {
+    fontStyle: "normal",
+    fontFamily: "Montserrat",
   },
   formButton: {
     margin: 40,
-    borderRadius: 25,
-    width: "70%",
+    borderRadius: 28,
+    width: "80%",
     backgroundColor: "#128c7e",
     justifyContent: "center",
     alignItems: "center",
     height: 50,
+    flexDirection: "row",
     fontWeight: "bold",
   },
 });
