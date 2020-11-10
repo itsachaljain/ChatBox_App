@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
+  Image,
 } from "react-native";
 import { Text, CheckBox } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
@@ -60,6 +61,10 @@ class Login extends Component {
     return (
       <ScrollView style={{ backgroundColor: "aquamarine" }}>
         <View style={styles.container}>
+          <Image
+            source={require("../assets/logo.png")}
+            style={{ marginLeft: 20 }}
+          />
           <KeyboardAvoidingView style={styles.card}>
             <View style={styles.formInput}>
               <TextInput
@@ -86,6 +91,7 @@ class Login extends Component {
               >
                 <View style={styles.modal}>
                   <View style={styles.modalview}>
+                    <Image source={require("../assets/logo.png")} />
                     <Text
                       style={{
                         fontSize: 20,
