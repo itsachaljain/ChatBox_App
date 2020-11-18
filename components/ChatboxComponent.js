@@ -8,6 +8,8 @@ import {
   Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import { useScreens } from "react-native-screens";
+import { db } from "../config";
 
 class Chatbox extends Component {
   constructor(props) {
@@ -15,12 +17,21 @@ class Chatbox extends Component {
 
     this.state = {
       message: "",
-      messages: [],
+      messages: [
+        {
+          user: "Achal",
+          text: "Hey",
+        },
+        {
+          user: "Naman",
+          text: "Hey",
+        },
+      ],
     };
   }
 
   componentDidMount() {
-    fetch("http://192.168.1.7:3001/messages", {
+    fetch("http://192.168.1.7:3000/messages", {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -60,12 +71,40 @@ class Chatbox extends Component {
     }
   };
 
+  listOfMessages = () => {
+    return this.state.messages.map((element) => {
+      if (element.user === "Achal") {
+        return (
+          <View style={styles.bubble}>
+            <Text style={{ fontSize: 10, color: "green" }}>{element.user}</Text>
+            <View style={{ borderWidth: 0.6 }}></View>
+            <Text>{element.text}</Text>
+          </View>
+        );
+      } else if (element.user === "Naman") {
+        return (
+          <View style={styles.bubble2}>
+            <Text style={{ fontSize: 10, color: "green" }}>{element.user}</Text>
+            <View style={{ borderWidth: 0.6 }}></View>
+            <Text>{element.text}</Text>
+          </View>
+        );
+      } else {
+        return (
+          <View>
+            <Text>Fake User</Text>
+          </View>
+        );
+      }
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.messageBottom}>
           <ScrollView>
-            <View style={styles.bubble}>{this.state.messages}</View>
+            <View>{this.listOfMessages()}</View>
           </ScrollView>
         </View>
         <View style={styles.bottomView}>
@@ -83,7 +122,6 @@ class Chatbox extends Component {
               reverse
               size={20}
               color="#128c7e"
-              style={{}}
               name="paper-plane"
               type="font-awesome"
               onPress={this.handleSubmit}
@@ -118,7 +156,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     justifyContent: "center",
-    alignItems: "center",
     position: "absolute",
     bottom: 0,
   },
@@ -127,16 +164,30 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     flexDirection: "row",
+    marginLeft: 10,
+    marginBottom: 7,
   },
   bubble: {
     padding: 10,
     backgroundColor: "#A9A9A9",
     borderWidth: 2,
     borderColor: "gray",
-    marginVertical: 10,
+    marginVertical: 5,
     borderRadius: 25,
     alignSelf: "auto",
     marginRight: 10,
+    marginLeft: 10,
+  },
+  bubble2: {
+    padding: 10,
+    backgroundColor: "#A9A9A9",
+    borderWidth: 2,
+    borderColor: "gray",
+    marginBottom: 15,
+    borderRadius: 25,
+    alignSelf: "auto",
+    marginRight: 10,
+    marginLeft: 10,
   },
   messageBottom: {
     position: "absolute",
