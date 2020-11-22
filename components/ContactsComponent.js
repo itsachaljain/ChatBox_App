@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { Card } from "react-native-elements";
+import { ScrollView, TouchableOpacity, StyleSheet } from "react-native";
+import { Card, FlatList, ListItem } from "react-native-elements";
+import { Avatar } from "react-native-gifted-chat";
 
 class Contacts extends Component {
   constructor(props) {
@@ -9,18 +10,30 @@ class Contacts extends Component {
 
   render() {
     return (
-      <View>
+      <ScrollView style = {styles.container}>
+        <Card
+          containerStyle = {styles.container}
+        >
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.navigate("The Chatbox");
           }}
         >
-          <Card>
-            <Card.Title>Naman</Card.Title>
-            <Card.Divider />
-          </Card>
+          <ListItem style= {styles.listitem}>
+            <Avatar />
+            <ListItem.Content>
+                <ListItem.Title>
+                  Naman
+                </ListItem.Title>
+                <Card.Divider/>
+                <ListItem.Subtitle>
+                  ABCD
+                </ListItem.Subtitle>
+              </ListItem.Content>
+          </ListItem>
         </TouchableOpacity>
-      </View>
+        </Card>
+        </ScrollView>
     );
   }
 }
@@ -29,6 +42,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 5,
   },
+  container: {
+    backgroundColor: "aquamarine",
+
+  },
+  card: {
+    backgroundColor: "aquamarine",
+    borderColor: "aquamarine",
+    margin : 0,
+    padding: 0,
+    
+  },
+  listitem: {
+    borderRadius: 15,
+    backgroundColor : "pink",
+    padding:0,
+    margin: 0,
+    
+  }
 });
 
 export default Contacts;
