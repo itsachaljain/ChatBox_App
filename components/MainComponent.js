@@ -5,6 +5,7 @@ import Chatbox from "./ChatboxComponent";
 import Login from "./LoginComponent";
 import Register from "./RegisterComponent";
 import { View, StatusBar } from "react-native";
+import Contacts from "./ContactsComponent";
 
 const LoginNavigator = createStackNavigator();
 
@@ -32,6 +33,11 @@ function LoginNavigatorScreen() {
         name="Register"
         component={Register}
         options={{ headerTitle: "Register" }}
+      />
+      <LoginNavigator.Screen
+        name="Contacts"
+        component={Contacts}
+        options={{ headerTitle: "Contacts" }}
       />
     </LoginNavigator.Navigator>
   );

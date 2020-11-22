@@ -112,7 +112,7 @@ class Login extends Component {
                       <TouchableOpacity
                         onPress={() => {
                           if (this.state.answer === "Jatin") {
-                            this.props.navigation.navigate("The Chatbox");
+                            this.props.navigation.navigate("Contacts");
                             this.toggleModal();
                           } else {
                             Alert.alert("The Answer is incorrect!");
@@ -154,7 +154,7 @@ class Login extends Component {
                   this.state.username === "Achal" &&
                   this.state.password === "achal"
                 ) {
-                  this.props.navigation.navigate("The Chatbox");
+                  this.props.navigation.navigate("Contacts");
                 } else {
                   Alert.alert(
                     "Please enter the correct username and password!"
