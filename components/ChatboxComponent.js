@@ -8,8 +8,15 @@ import {
   Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import { useScreens } from "react-native-screens";
 import { db } from "../config";
+
+let addMessage = (text) => {
+  db.ref("/messages").push({
+    message: text,
+  });
+};
+
+let messagesRef = db.ref("/messages");
 
 class Chatbox extends Component {
   constructor(props) {
@@ -17,44 +24,16 @@ class Chatbox extends Component {
 
     this.state = {
       message: "",
-      messages: [
-        {
-          user: "Achal",
-          text: "Hey",
-        },
-        {
-          user: "Naman",
-          text: "Hey",
-        },
-      ],
+      messages: [],
     };
   }
 
   componentDidMount() {
-    fetch("http://192.168.1.7:3000/messages", {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error(
-            "Error" + response.status + ": " + response.statusText
-          );
-          error.response = response;
-          throw error;
-        }
-      })
-      .then((response) => response.json())
-      .then((response) => {
-        this.setState({ messages: response });
-      })
-      .catch((error) => {
-        console.log("Error: " + error.message);
-      });
+    messagesRef.on("value", (snapshot) => {
+      let data = snapshot.val();
+      let messages = Object.values(data);
+      this.setState({ messages });
+    });
   }
 
   handleOnChange = (event) => {
@@ -65,7 +44,7 @@ class Chatbox extends Component {
 
   handleSubmit = () => {
     if (this.state.message === "") {
-      this.setState({ message: "" });
+      addMessage(this.state.message);
     } else {
       this.setState({ message: "" });
     }
