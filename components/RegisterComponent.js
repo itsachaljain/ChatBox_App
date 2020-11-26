@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
@@ -20,46 +21,44 @@ class Register extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <KeyboardAvoidingView style={styles.card}>
+      <ScrollView style={{ backgroundColor: "aquamarine" }}>
+        <View style={styles.container}>
           <Image
             source={require("../assets/logo.png")}
-            style={{ marginLeft: 10 }}
+            style={{ marginLeft: 20 }}
           />
-          <View style={styles.formInput}>
-            <TextInput
-              placeholder="E-mail"
-              value={this.state.email}
-              onChangeText={(email) => this.setState({ email })}
-            />
-          </View>
-          <View style={styles.formInput}>
-            <TextInput
-              placeholder="Password"
-              value={this.state.password}
-              onChangeText={(password) => this.setState({ password })}
-              secureTextEntry={true}
-            />
+          <KeyboardAvoidingView style={styles.card}>
+            <View style={styles.formInput}>
+              <TextInput
+                placeholder="E-mail"
+                value={this.state.email}
+                onChangeText={(email) => this.setState({ email })}
+              />
+            </View>
+            <View style={styles.formInput}>
+              <TextInput
+                placeholder="Password"
+                value={this.state.password}
+                onChangeText={(password) => this.setState({ password })}
+                secureTextEntry={true}
+              />
+            </View>
             <TouchableOpacity>
               <View style={styles.formButton}>
                 <Text>Register</Text>
               </View>
             </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
-      </View>
+          </KeyboardAvoidingView>
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    flex: 1,
-    backgroundColor: "aquamarine",
-  },
-  text: {
-    fontStyle: "normal",
+    justifyContent: "center",
+    margin: 5,
   },
   formButton: {
     margin: 40,
