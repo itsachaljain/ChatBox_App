@@ -17,10 +17,10 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
-      username: "",
+      email: "",
       password: "",
       answer: "",
+      returnSecureToken: true,
       remember: false,
       showModal: false,
     };
@@ -37,22 +37,40 @@ class Login extends Component {
     });
   }
 
-  handleLogin() {
-    console.log(JSON.stringify(this.state));
-    if (this.state.remember) {
-      SecureStore.setItemAsync(
-        "userinfo",
-        JSON.stringify({
-          username: this.state.username,
-          password: this.state.password,
-        })
-      ).catch((error) => console.log("Could not save user info", error));
-    } else {
-      SecureStore.deleteItemAsync("userinfo").catch((error) =>
-        console.log("Could not delete user info", error)
-      );
-    }
-  }
+  handleLogin = (email, password) => {
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCOrCKRwAsOcbvobIc-hTIMkylSg6U_fPo",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }),
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        this.setState({ messages: response });
+      })
+      .catch((error) => {
+        console.log("Error: " + error.message);
+      });
+  };
 
   toggleModal = () => {
     this.setState({ showModal: !this.state.showModal });
@@ -69,9 +87,9 @@ class Login extends Component {
           <KeyboardAvoidingView style={styles.card}>
             <View style={styles.formInput}>
               <TextInput
-                placeholder="Username"
-                onChangeText={(username) => this.setState({ username })}
-                value={this.state.username}
+                placeholder="Email"
+                onChangeText={(email) => this.setState({ email })}
+                value={this.state.email}
               />
             </View>
             <View style={styles.formInput}>
