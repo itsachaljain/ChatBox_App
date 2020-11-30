@@ -16,8 +16,44 @@ class Register extends Component {
     this.state = {
       email: "",
       password: "",
+      returnSecureToken: true,
     };
   }
+
+  signUpNewUser = (email, password) => {
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCOrCKRwAsOcbvobIc-hTIMkylSg6U_fPo ",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }),
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        this.setState({ messages: response });
+      })
+      .catch((error) => {
+        console.log("Error: " + error.message);
+      });
+  };
 
   render() {
     return (
@@ -32,18 +68,24 @@ class Register extends Component {
               <TextInput
                 placeholder="E-mail"
                 value={this.state.email}
-                onChangeText={(email) => this.setState({ email })}
+                onChangeText={(email) => this.setState({ email: email })}
               />
             </View>
             <View style={styles.formInput}>
               <TextInput
                 placeholder="Password"
                 value={this.state.password}
-                onChangeText={(password) => this.setState({ password })}
+                onChangeText={(password) =>
+                  this.setState({ password: password })
+                }
                 secureTextEntry={true}
               />
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.signUpNewUser(this.state.email, this.state.password)
+              }
+            >
               <View style={styles.formButton}>
                 <Text>Register</Text>
               </View>
