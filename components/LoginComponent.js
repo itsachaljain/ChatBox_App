@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Text, CheckBox } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
+import * as firebase from "firebase";
 
 class Login extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class Login extends Component {
       email: "",
       password: "",
       answer: "",
+      errorMess: null,
       returnSecureToken: true,
       remember: false,
       showModal: false,
@@ -37,39 +39,15 @@ class Login extends Component {
     });
   }
 
-  handleLogin = (email, password) => {
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCOrCKRwAsOcbvobIc-hTIMkylSg6U_fPo",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }),
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error(
-            "Error " + response.status + ": " + response.statusText
-          );
-          error.response = response;
-          throw error;
-        }
+  handleLogin = () => {
+    const { email, password } = this.state;
+    firebase.default
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.props.navigation.navigate("Contacts");
       })
-      .then((response) => response.json())
-      .then((response) => {
-        this.setState({ messages: response });
-      })
-      .catch((error) => {
-        console.log("Error: " + error.message);
-      });
+      .catch((error) => this.setState({ errorMess: error.message }));
   };
 
   toggleModal = () => {
@@ -167,21 +145,7 @@ class Login extends Component {
               containerStyle={styles.formCheckbox}
             />
 
-            <TouchableOpacity
-              onPress={() => {
-                if (
-                  this.state.username === "Achal" &&
-                  this.state.password === "achal"
-                ) {
-                  this.props.navigation.navigate("Contacts");
-                } else {
-                  Alert.alert(
-                    "Please enter the correct username and password!"
-                  );
-                }
-                this.handleLogin();
-              }}
-            >
+            <TouchableOpacity onPress={this.handleLogin}>
               <View style={styles.formButton}>
                 <Text> LOGIN </Text>
               </View>

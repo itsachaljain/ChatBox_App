@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import * as firebase from "firebase";
 
 class Register extends Component {
   constructor(props) {
@@ -16,43 +17,17 @@ class Register extends Component {
     this.state = {
       email: "",
       password: "",
+      errorMess: null,
       returnSecureToken: true,
     };
   }
 
-  signUpNewUser = (email, password) => {
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCOrCKRwAsOcbvobIc-hTIMkylSg6U_fPo ",
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }),
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error(
-            "Error " + response.status + ": " + response.statusText
-          );
-          error.response = response;
-          throw error;
-        }
-      })
-      .then((response) => response.json())
-      .then((response) => {
-        this.setState({ messages: response });
-      })
-      .catch((error) => {
-        console.log("Error: " + error.message);
-      });
+  signUpNewUser = () => {
+    firebase.default
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => this.props.navigation.navigate("Contacts"))
+      .catch((error) => this.setState({ errorMess: error.message }));
   };
 
   render() {
@@ -68,24 +43,18 @@ class Register extends Component {
               <TextInput
                 placeholder="E-mail"
                 value={this.state.email}
-                onChangeText={(email) => this.setState({ email: email })}
+                onChangeText={(email) => this.setState({ email })}
               />
             </View>
             <View style={styles.formInput}>
               <TextInput
                 placeholder="Password"
                 value={this.state.password}
-                onChangeText={(password) =>
-                  this.setState({ password: password })
-                }
+                onChangeText={(password) => this.setState({ password })}
                 secureTextEntry={true}
               />
             </View>
-            <TouchableOpacity
-              onPress={() =>
-                this.signUpNewUser(this.state.email, this.state.password)
-              }
-            >
+            <TouchableOpacity onPress={this.signUpNewUser}>
               <View style={styles.formButton}>
                 <Text>Register</Text>
               </View>

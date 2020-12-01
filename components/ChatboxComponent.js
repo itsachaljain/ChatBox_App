@@ -8,15 +8,15 @@ import {
   Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import { db } from "../config";
+import * as firebase from "firebase";
 
 let addMessage = (text) => {
-  db.ref("/messages").push({
+  firebase.default.database().ref("/messages").push({
     message: text,
   });
 };
 
-let messagesRef = db.ref("/messages");
+let messagesRef = firebase.default.database().ref("/messages");
 
 class Chatbox extends Component {
   constructor(props) {
