@@ -10,14 +10,14 @@ import {
 import { Icon } from "react-native-elements";
 import * as firebase from "firebase";
 
-let addMessage = (text) => {
+/*let addMessage = (text) => {
   firebase.default.database().ref("/messages").push({
     message: text,
   });
 };
 
 let messagesRef = firebase.default.database().ref("/messages");
-
+*/
 class Chatbox extends Component {
   constructor(props) {
     super(props);
@@ -28,13 +28,13 @@ class Chatbox extends Component {
     };
   }
 
-  componentDidMount() {
+  /*componentDidMount() {
     messagesRef.on("value", (snapshot) => {
       let data = snapshot.val();
       let messages = Object.values(data);
       this.setState({ messages });
     });
-  }
+  } */
 
   handleOnChange = (event) => {
     this.setState({

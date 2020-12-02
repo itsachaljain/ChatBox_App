@@ -107,14 +107,24 @@ class Login extends Component {
                     </View>
                     <View style={{ margin: 10 }}>
                       <TouchableOpacity
-                        onPress={() => {
+                        /*onPress={() => {
                           if (this.state.answer === "Jatin") {
                             this.props.navigation.navigate("Contacts");
                             this.toggleModal();
                           } else {
                             Alert.alert("The Answer is incorrect!");
                           }
-                        }}
+                        }} */ onPress={() =>
+                          firebase.default
+                            .auth()
+                            .sendPasswordResetEmail(this.state.email)
+                            .then(function () {
+                              // Email sent.
+                            })
+                            .catch(function (error) {
+                              // An error happened.
+                            })
+                        }
                         style={styles.modalbutton1}
                       >
                         <Text>SUBMIT</Text>
