@@ -7,6 +7,7 @@ import {
   Image,
   KeyboardAvoidingView,
   ScrollView,
+  Alert,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import * as firebase from "firebase";
@@ -17,17 +18,29 @@ class Register extends Component {
     this.state = {
       email: "",
       password: "",
+      Confirmpassword: "",
       errorMess: null,
       returnSecureToken: true,
     };
   }
 
   signUpNewUser = () => {
-    firebase.default
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => this.props.navigation.navigate("Contacts"))
-      .catch((error) => this.setState({ errorMess: error.message }));
+    const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(this.state.password === this.state.Confirmpassword || (reg.test(this.state.email) === true)) {
+      firebase.default
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(() => this.props.navigation.navigate("Contacts"))
+        .catch((error) => this.setState({ errorMess: error.message }));
+    }
+
+    else if (reg.test(this.state.email) !== true){
+      Alert.alert("Please enter a valid email.")
+    }
+
+    else if (this.state.password !== this.state.Confirmpassword) {
+      Alert.alert("The passwords don't match!")
+    }
   };
 
   render() {
@@ -51,6 +64,14 @@ class Register extends Component {
                 placeholder="Password"
                 value={this.state.password}
                 onChangeText={(password) => this.setState({ password })}
+                secureTextEntry={true}
+              />
+            </View>
+            <View style={styles.formInput}>
+              <TextInput
+                placeholder="Confirm password"
+                value={this.state.Confirmpassword}
+                onChangeText={(Confirmpassword) => this.setState({ Confirmpassword })}
                 secureTextEntry={true}
               />
             </View>
