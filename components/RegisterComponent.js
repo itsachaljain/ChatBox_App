@@ -7,6 +7,7 @@ import {
   Image,
   KeyboardAvoidingView,
   ScrollView,
+  Alert,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import * as firebase from "firebase";
@@ -17,17 +18,24 @@ class Register extends Component {
     this.state = {
       email: "",
       password: "",
+      Confirmpassword: "",
       errorMess: null,
       returnSecureToken: true,
     };
   }
 
   signUpNewUser = () => {
-    firebase.default
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => this.props.navigation.navigate("Contacts"))
-      .catch((error) => this.setState({ errorMess: error.message }));
+    if (this.state.password === this.state.Confirmpassword) {
+      firebase.default
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(() => Alert.alert("Thanks for joining us! You can Login Now!"))
+        .catch((error) =>
+          Alert.alert("Please enter valid credentials and Try again!")
+        );
+    } else {
+      Alert.alert("The passwords don't match!");
+    }
   };
 
   render() {
@@ -48,9 +56,19 @@ class Register extends Component {
             </View>
             <View style={styles.formInput}>
               <TextInput
-                placeholder="Password"
+                placeholder="Password (atleast 6 characters)"
                 value={this.state.password}
                 onChangeText={(password) => this.setState({ password })}
+                secureTextEntry={true}
+              />
+            </View>
+            <View style={styles.formInput}>
+              <TextInput
+                placeholder="Confirm password"
+                value={this.state.Confirmpassword}
+                onChangeText={(Confirmpassword) =>
+                  this.setState({ Confirmpassword })
+                }
                 secureTextEntry={true}
               />
             </View>

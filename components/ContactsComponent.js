@@ -6,14 +6,12 @@ import { Avatar } from "react-native-gifted-chat";
 const list = [
   {
     name: "Amy Farha",
-    avatar_url:
-      "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+    avatar_url: "https://fakeimg.pl/300/",
     subtitle: "Vice President",
   },
   {
     name: "Chris Jackson",
-    avatar_url:
-      "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
+    avatar_url: "https://fakeimg.pl/300/",
     subtitle: "Vice Chairman",
   },
 ];

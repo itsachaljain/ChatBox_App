@@ -21,10 +21,9 @@ class Login extends Component {
       email: "",
       password: "",
       answer: "",
-      errorMess: null,
       returnSecureToken: true,
-      remember: false,
       showModal: false,
+      remember: false,
     };
   }
 
@@ -47,7 +46,7 @@ class Login extends Component {
       .then(() => {
         this.props.navigation.navigate("Contacts");
       })
-      .catch((error) => this.setState({ errorMess: error.message }));
+      .catch((error) => Alert.alert("Invalid Input!"));
   };
 
   toggleModal = () => {
@@ -78,73 +77,21 @@ class Login extends Component {
                 secureTextEntry={true}
               />
             </View>
-            <TouchableOpacity>
-              <Modal
-                visible={this.state.showModal}
-                onDismiss={() => this.toggleModal()}
-                onRequestClose={() => {
-                  this.toggleModal();
-                }}
-              >
-                <View style={styles.modal}>
-                  <View style={styles.modalview}>
-                    <Image source={require("../assets/logo.png")} />
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        margin: 50,
-                        alignItems: "center",
-                      }}
-                    >
-                      Q: Who is Your Best Friend?
-                    </Text>
-                    <View style={styles.formInput}>
-                      <TextInput
-                        placeholder="Answer"
-                        onChangeText={(answer) => this.setState({ answer })}
-                        value={this.state.answer}
-                      />
-                    </View>
-                    <View style={{ margin: 10 }}>
-                      <TouchableOpacity
-                        /*onPress={() => {
-                          if (this.state.answer === "Jatin") {
-                            this.props.navigation.navigate("Contacts");
-                            this.toggleModal();
-                          } else {
-                            Alert.alert("The Answer is incorrect!");
-                          }
-                        }} */ onPress={() =>
-                          firebase.default
-                            .auth()
-                            .sendPasswordResetEmail(this.state.email)
-                            .then(function () {
-                              // Email sent.
-                            })
-                            .catch(function (error) {
-                              // An error happened.
-                            })
-                        }
-                        style={styles.modalbutton1}
-                      >
-                        <Text>SUBMIT</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={{ margin: 10 }}>
-                      <TouchableOpacity
-                        onPress={() => this.toggleModal()}
-                        style={styles.modalbutton2}
-                      >
-                        <Text>CANCEL</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
+            <TouchableOpacity
+              onPress={() =>
+                firebase.default
+                  .auth()
+                  .sendPasswordResetEmail(this.state.email)
+                  .then(function () {
+                    Alert.alert("An Email sent to your registered Email Id.");
+                  })
+                  .catch(function (error) {
+                    Alert.alert("An error Occurred. Please try again!");
+                  })
+              }
+            >
               <View>
-                <Text onPress={this.toggleModal} style={styles.forgot}>
-                  Forgot Password?
-                </Text>
+                <Text style={styles.forgot}>Forgot Password?</Text>
               </View>
             </TouchableOpacity>
             <CheckBox
@@ -166,6 +113,34 @@ class Login extends Component {
               <View>
                 <Text style={styles.forgot}>New here? Register now!</Text>
               </View>
+            </TouchableOpacity>
+            <Text style={{ margin: 40 }}></Text>
+            <TouchableOpacity onPress={this.toggleModal}>
+              <View>
+                <Text style={styles.forgot}>About Us! ;)</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Modal
+                visible={this.state.showModal}
+                onDismiss={() => this.toggleModal()}
+                onRequestClose={() => {
+                  this.toggleModal();
+                }}
+              >
+                <View style={styles.modal}>
+                  <View style={styles.modalview}>
+                    <Image source={require("../assets/logo.png")} />
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        margin: 50,
+                        alignItems: "center",
+                      }}
+                    ></Text>
+                  </View>
+                </View>
+              </Modal>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>

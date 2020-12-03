@@ -16,8 +16,8 @@ import * as firebase from "firebase";
   });
 };
 
-let messagesRef = firebase.default.database().ref("/messages");
-*/
+let messagesRef = firebase.default.database().ref("/messages");*/
+
 class Chatbox extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +34,7 @@ class Chatbox extends Component {
       let messages = Object.values(data);
       this.setState({ messages });
     });
-  } */
+  }*/
 
   handleOnChange = (event) => {
     this.setState({
