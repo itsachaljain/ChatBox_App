@@ -10,7 +10,7 @@ import {
   Modal,
   Image,
 } from "react-native";
-import { Text, CheckBox } from "react-native-elements";
+import { Text, CheckBox, ListItem, Icon,  } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 import * as firebase from "firebase";
 
@@ -114,7 +114,7 @@ class Login extends Component {
                 <Text style={styles.forgot}>New here? Register now!</Text>
               </View>
             </TouchableOpacity>
-            <Text style={{ margin: 40 }}></Text>
+            <Text style={{ margin: 20 }}></Text>
             <TouchableOpacity onPress={this.toggleModal}>
               <View>
                 <Text style={styles.forgot}>About Us! ;)</Text>
@@ -127,17 +127,66 @@ class Login extends Component {
                 onRequestClose={() => {
                   this.toggleModal();
                 }}
+                animationType = "fade"
               >
                 <View style={styles.modal}>
                   <View style={styles.modalview}>
                     <Image source={require("../assets/logo.png")} />
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        margin: 50,
-                        alignItems: "center",
-                      }}
-                    ></Text>
+                    <View style = {{
+                      alignContent: "space-between",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      alignSelf: "center"
+                    }}>
+                      <Image source = {require("../assets/Achal.jpg")}
+                        style = {styles.auimage}
+                      />
+
+                      <Image source = {require("../assets/Naman.jpg")}
+                        style = {styles.auimage}
+                      />
+                    </View>
+                    <Text style={styles.aboutus}>
+                      This is an app created by two people, Achal and Naman, in the hopes of bringing people closer. You can reach us at the following:
+                    </Text>
+
+                    <View style = {{justifyContent: "center",}}>
+                      <ListItem>
+                        <Icon
+                          name = "github"
+                          type = "font-awesome"
+                          size = {25} 
+                        />
+                        <Text>itsachaljain</Text>
+                        </ListItem>
+                        <ListItem>
+                        <Icon
+                          name = "instagram"
+                          type = "font-awesome"
+                          size = {25} 
+                        />
+                        <Text>@itsachaljain</Text>
+                      </ListItem>
+                    </View>
+
+                    <View style = {{}}>
+                      <ListItem>
+                        <Icon
+                            name = "github"
+                            type = "font-awesome"
+                            size = {25} 
+                          />
+                          <Text>naman-gurnaaz</Text>
+                      </ListItem>
+                      <ListItem>
+                        <Icon 
+                          name = "instagram"
+                          type = "font-awesome"
+                          size = {25} 
+                        />
+                        <Text>@naman_gurnaaz</Text>
+                      </ListItem>
+                    </View>
                   </View>
                 </View>
               </Modal>
@@ -233,6 +282,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     elevation: 5,
   },
+  aboutus: {
+    fontSize: 20,
+    alignItems: "center",
+    marginBottom:20
+  },
+  auimage: {
+    borderRadius: 45,
+    height: 90,
+    width: 90,
+    margin: 10,
+
+  }
 });
 
 export default Login;
