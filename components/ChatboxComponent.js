@@ -8,15 +8,15 @@ import {
   Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import * as firebase from "firebase";
+import { db } from "../config";
 
-/*let addMessage = (text) => {
-  firebase.default.database().ref("/messages").push({
+let addMessage = (text) => {
+  db.ref("/messages").push({
     message: text,
   });
 };
 
-let messagesRef = firebase.default.database().ref("/messages");*/
+let messagesRef = db.ref("/messages");
 
 class Chatbox extends Component {
   constructor(props) {
@@ -28,13 +28,13 @@ class Chatbox extends Component {
     };
   }
 
-  /*componentDidMount() {
+  componentDidMount() {
     messagesRef.on("value", (snapshot) => {
       let data = snapshot.val();
       let messages = Object.values(data);
       this.setState({ messages });
     });
-  }*/
+  }
 
   handleOnChange = (event) => {
     this.setState({

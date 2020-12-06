@@ -9,8 +9,9 @@ import {
   TouchableOpacity,
   Modal,
   Image,
+  Linking,
 } from "react-native";
-import { Text, CheckBox, ListItem, Icon,  } from "react-native-elements";
+import { Text, CheckBox, ListItem, Icon } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 import * as firebase from "firebase";
 
@@ -28,10 +29,10 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    SecureStore.getItemAsync("userinfo").then((userdata) => {
+    SecureStore.getItemAsync("userData").then((userdata) => {
       let userinfo = JSON.parse(userdata);
       if (userinfo) {
-        this.setState({ username: userinfo.username });
+        this.setState({ email: userinfo.email });
         this.setState({ password: userinfo.password });
         this.setState({ remember: true });
       }
@@ -127,64 +128,81 @@ class Login extends Component {
                 onRequestClose={() => {
                   this.toggleModal();
                 }}
-                animationType = "fade"
+                animationType="fade"
               >
                 <View style={styles.modal}>
                   <View style={styles.modalview}>
                     <Image source={require("../assets/logo.png")} />
-                    <View style = {{
-                      alignContent: "space-between",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      alignSelf: "center"
-                    }}>
-                      <Image source = {require("../assets/Achal.jpg")}
-                        style = {styles.auimage}
+                    <View
+                      style={{
+                        alignContent: "space-between",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignSelf: "center",
+                      }}
+                    >
+                      <Image
+                        source={require("../assets/Achal.jpg")}
+                        style={styles.auimage}
                       />
 
-                      <Image source = {require("../assets/Naman.jpg")}
-                        style = {styles.auimage}
+                      <Image
+                        source={require("../assets/Naman.jpg")}
+                        style={styles.auimage}
                       />
                     </View>
                     <Text style={styles.aboutus}>
-                      This is an app created by two people, Achal and Naman, in the hopes of bringing people closer. You can reach us at the following:
+                      We are the devs, So just take some fucking time to check
+                      us out!
                     </Text>
 
-                    <View style = {{justifyContent: "center",}}>
+                    <View style={{ justifyContent: "center" }}>
                       <ListItem>
-                        <Icon
-                          name = "github"
-                          type = "font-awesome"
-                          size = {25} 
-                        />
-                        <Text>itsachaljain</Text>
-                        </ListItem>
-                        <ListItem>
-                        <Icon
-                          name = "instagram"
-                          type = "font-awesome"
-                          size = {25} 
-                        />
-                        <Text>@itsachaljain</Text>
+                        <Icon name="github" type="font-awesome" size={25} />
+                        <Text
+                          onPress={() =>
+                            Linking.openURL("https://github.com/itsachaljain")
+                          }
+                        >
+                          itsachaljain
+                        </Text>
+                      </ListItem>
+                      <ListItem>
+                        <Icon name="instagram" type="font-awesome" size={25} />
+                        <Text
+                          onPress={() =>
+                            Linking.openURL(
+                              "https://www.instagram.com/itsachaljain/"
+                            )
+                          }
+                        >
+                          @itsachaljain
+                        </Text>
                       </ListItem>
                     </View>
 
-                    <View style = {{}}>
+                    <View style={{}}>
                       <ListItem>
-                        <Icon
-                            name = "github"
-                            type = "font-awesome"
-                            size = {25} 
-                          />
-                          <Text>naman-gurnaaz</Text>
+                        <Icon name="github" type="font-awesome" size={25} />
+                        <Text
+                          onPress={() =>
+                            Linking.openURL("https://github.com/naman-gurnaaz")
+                          }
+                        >
+                          naman-gurnaaz
+                        </Text>
                       </ListItem>
                       <ListItem>
-                        <Icon 
-                          name = "instagram"
-                          type = "font-awesome"
-                          size = {25} 
-                        />
-                        <Text>@naman_gurnaaz</Text>
+                        <Icon name="instagram" type="font-awesome" size={25} />
+                        <Text
+                          onPress={() =>
+                            Linking.openURL(
+                              "https://instagram.com/naman_gurnaaz/"
+                            )
+                          }
+                        >
+                          @naman_gurnaaz
+                        </Text>
                       </ListItem>
                     </View>
                   </View>
@@ -285,15 +303,14 @@ const styles = StyleSheet.create({
   aboutus: {
     fontSize: 20,
     alignItems: "center",
-    marginBottom:20
+    marginBottom: 20,
   },
   auimage: {
     borderRadius: 45,
     height: 90,
     width: 90,
     margin: 10,
-
-  }
+  },
 });
 
 export default Login;

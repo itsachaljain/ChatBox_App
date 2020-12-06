@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Card, ListItem } from "react-native-elements";
 import { Avatar } from "react-native-gifted-chat";
+import * as firebase from "firebase";
 
 const list = [
   {
