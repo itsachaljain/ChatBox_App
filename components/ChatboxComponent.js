@@ -8,8 +8,16 @@ import {
   Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import { useScreens } from "react-native-screens";
 import { db } from "../config";
+import * as firebase from "firebase";
+
+let addMessage = (text) => {
+  db.ref("/messages").push({
+    message: text,
+  });
+};
+
+let messagesRef = db.ref("/messages");
 
 class Chatbox extends Component {
   constructor(props) {
@@ -17,44 +25,19 @@ class Chatbox extends Component {
 
     this.state = {
       message: "",
-      messages: [
-        {
-          user: "Achal",
-          text: "Hey",
-        },
-        {
-          user: "Naman",
-          text: "Hey",
-        },
-      ],
+      messages: [],
     };
   }
 
   componentDidMount() {
-    fetch("http://192.168.1.7:3000/messages", {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error(
-            "Error" + response.status + ": " + response.statusText
-          );
-          error.response = response;
-          throw error;
-        }
-      })
-      .then((response) => response.json())
-      .then((response) => {
-        this.setState({ messages: response });
-      })
-      .catch((error) => {
-        console.log("Error: " + error.message);
-      });
+    messagesRef.on("value", (snapshot) => {
+      let data = snapshot.val();
+      if (data) {
+        let messages = Object.values(data);
+        this.setState({ messages: messages });
+        console.log(messages[0]);
+      }
+    });
   }
 
   handleOnChange = (event) => {
@@ -64,38 +47,44 @@ class Chatbox extends Component {
   };
 
   handleSubmit = () => {
-    if (this.state.message === "") {
-      this.setState({ message: "" });
-    } else {
+    if (this.state.message !== "") {
+      addMessage(this.state.message);
+      //} else {
       this.setState({ message: "" });
     }
   };
 
   listOfMessages = () => {
     return this.state.messages.map((element) => {
-      if (element.user === "Achal") {
-        return (
-          <View style={styles.bubble}>
-            <Text style={{ fontSize: 10, color: "green" }}>{element.user}</Text>
-            <View style={{ borderWidth: 0.6 }}></View>
-            <Text>{element.text}</Text>
-          </View>
-        );
-      } else if (element.user === "Naman") {
-        return (
-          <View style={styles.bubble2}>
-            <Text style={{ fontSize: 10, color: "green" }}>{element.user}</Text>
-            <View style={{ borderWidth: 0.6 }}></View>
-            <Text>{element.text}</Text>
-          </View>
-        );
-      } else {
-        return (
-          <View>
-            <Text>Fake User</Text>
-          </View>
-        );
-      }
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          return (
+            <View style={styles.bubble}>
+              <Text style={{ fontSize: 10, color: "green" }}>
+                {element.user}
+              </Text>
+              <View style={{ borderWidth: 0.6 }}></View>
+              <Text>{element.text}</Text>
+            </View>
+          );
+        } else if (!user) {
+          /*if (element.user === "Naman")*/ return (
+            <View style={styles.bubble2}>
+              <Text style={{ fontSize: 10, color: "green" }}>
+                {element.user}
+              </Text>
+              <View style={{ borderWidth: 0.6 }}></View>
+              <Text>{element.text}</Text>
+            </View>
+          );
+        } else {
+          return (
+            <View>
+              <Text>Fake User</Text>
+            </View>
+          );
+        }
+      });
     });
   };
 
@@ -113,7 +102,10 @@ class Chatbox extends Component {
               value={this.state.message}
               placeholder="Type a message"
               style={styles.messages}
-              onChangeText={this.handleOnChange}
+              //onChangeText={this.handleOnChange}
+              onChangeText={(message) => {
+                this.setState({ message });
+              }}
               returnKeyType="send"
             />
 

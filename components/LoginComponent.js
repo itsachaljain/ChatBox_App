@@ -9,49 +9,46 @@ import {
   TouchableOpacity,
   Modal,
   Image,
+  Linking,
 } from "react-native";
-import { Text, CheckBox } from "react-native-elements";
+import { Text, CheckBox, ListItem, Icon } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
+import * as firebase from "firebase";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: "",
       answer: "",
-      remember: false,
+      returnSecureToken: true,
       showModal: false,
+      remember: false,
     };
   }
 
   componentDidMount() {
-    SecureStore.getItemAsync("userinfo").then((userdata) => {
+    SecureStore.getItemAsync("userData").then((userdata) => {
       let userinfo = JSON.parse(userdata);
       if (userinfo) {
-        this.setState({ username: userinfo.username });
+        this.setState({ email: userinfo.email });
         this.setState({ password: userinfo.password });
         this.setState({ remember: true });
       }
     });
   }
 
-  handleLogin() {
-    console.log(JSON.stringify(this.state));
-    if (this.state.remember) {
-      SecureStore.setItemAsync(
-        "userinfo",
-        JSON.stringify({
-          username: this.state.username,
-          password: this.state.password,
-        })
-      ).catch((error) => console.log("Could not save user info", error));
-    } else {
-      SecureStore.deleteItemAsync("userinfo").catch((error) =>
-        console.log("Could not delete user info", error)
-      );
-    }
-  }
+  handleLogin = () => {
+    const { email, password } = this.state;
+    firebase.default
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.props.navigation.navigate("Contacts");
+      })
+      .catch((error) => Alert.alert("Invalid Input!"));
+  };
 
   toggleModal = () => {
     this.setState({ showModal: !this.state.showModal });
@@ -68,9 +65,9 @@ class Login extends Component {
           <KeyboardAvoidingView style={styles.card}>
             <View style={styles.formInput}>
               <TextInput
-                placeholder="Username"
-                onChangeText={(username) => this.setState({ username })}
-                value={this.state.username}
+                placeholder="Email"
+                onChangeText={(email) => this.setState({ email })}
+                value={this.state.email}
               />
             </View>
             <View style={styles.formInput}>
@@ -81,63 +78,21 @@ class Login extends Component {
                 secureTextEntry={true}
               />
             </View>
-            <TouchableOpacity>
-              <Modal
-                visible={this.state.showModal}
-                onDismiss={() => this.toggleModal()}
-                onRequestClose={() => {
-                  this.toggleModal();
-                }}
-              >
-                <View style={styles.modal}>
-                  <View style={styles.modalview}>
-                    <Image source={require("../assets/logo.png")} />
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        margin: 50,
-                        alignItems: "center",
-                      }}
-                    >
-                      Q: Who is Your Best Friend?
-                    </Text>
-                    <View style={styles.formInput}>
-                      <TextInput
-                        placeholder="Answer"
-                        onChangeText={(answer) => this.setState({ answer })}
-                        value={this.state.answer}
-                      />
-                    </View>
-                    <View style={{ margin: 10 }}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          if (this.state.answer === "Jatin") {
-                            this.props.navigation.navigate("Contacts");
-                            this.toggleModal();
-                          } else {
-                            Alert.alert("The Answer is incorrect!");
-                          }
-                        }}
-                        style={styles.modalbutton1}
-                      >
-                        <Text>SUBMIT</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={{ margin: 10 }}>
-                      <TouchableOpacity
-                        onPress={() => this.toggleModal()}
-                        style={styles.modalbutton2}
-                      >
-                        <Text>CANCEL</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
+            <TouchableOpacity
+              onPress={() =>
+                firebase.default
+                  .auth()
+                  .sendPasswordResetEmail(this.state.email)
+                  .then(function () {
+                    Alert.alert("An Email sent to your registered Email Id.");
+                  })
+                  .catch(function (error) {
+                    Alert.alert("An error Occurred. Please try again!");
+                  })
+              }
+            >
               <View>
-                <Text onPress={this.toggleModal} style={styles.forgot}>
-                  Forgot Password?
-                </Text>
+                <Text style={styles.forgot}>Forgot Password?</Text>
               </View>
             </TouchableOpacity>
             <CheckBox
@@ -148,21 +103,7 @@ class Login extends Component {
               containerStyle={styles.formCheckbox}
             />
 
-            <TouchableOpacity
-              onPress={() => {
-                if (
-                  this.state.username === "Achal" &&
-                  this.state.password === "achal"
-                ) {
-                  this.props.navigation.navigate("Contacts");
-                } else {
-                  Alert.alert(
-                    "Please enter the correct username and password!"
-                  );
-                }
-                this.handleLogin();
-              }}
-            >
+            <TouchableOpacity onPress={this.handleLogin}>
               <View style={styles.formButton}>
                 <Text> LOGIN </Text>
               </View>
@@ -173,6 +114,100 @@ class Login extends Component {
               <View>
                 <Text style={styles.forgot}>New here? Register now!</Text>
               </View>
+            </TouchableOpacity>
+            <Text style={{ margin: 20 }}></Text>
+            <TouchableOpacity onPress={this.toggleModal}>
+              <View>
+                <Text style={styles.forgot}>About Us! ;)</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Modal
+                visible={this.state.showModal}
+                onDismiss={() => this.toggleModal()}
+                onRequestClose={() => {
+                  this.toggleModal();
+                }}
+                animationType="fade"
+              >
+                <View style={styles.modal}>
+                  <View style={styles.modalview}>
+                    <Image source={require("../assets/logo.png")} />
+                    <View
+                      style={{
+                        alignContent: "space-between",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignSelf: "center",
+                      }}
+                    >
+                      <Image
+                        source={require("../assets/Achal.jpg")}
+                        style={styles.auimage}
+                      />
+
+                      <Image
+                        source={require("../assets/Naman.jpg")}
+                        style={styles.auimage}
+                      />
+                    </View>
+                    <Text style={styles.aboutus}>
+                      We are the devs, So just take some fucking time to check
+                      us out!
+                    </Text>
+
+                    <View style={{ justifyContent: "center" }}>
+                      <ListItem>
+                        <Icon name="github" type="font-awesome" size={25} />
+                        <Text
+                          onPress={() =>
+                            Linking.openURL("https://github.com/itsachaljain")
+                          }
+                        >
+                          itsachaljain
+                        </Text>
+                      </ListItem>
+                      <ListItem>
+                        <Icon name="instagram" type="font-awesome" size={25} />
+                        <Text
+                          onPress={() =>
+                            Linking.openURL(
+                              "https://www.instagram.com/itsachaljain/"
+                            )
+                          }
+                        >
+                          @itsachaljain
+                        </Text>
+                      </ListItem>
+                    </View>
+
+                    <View style={{}}>
+                      <ListItem>
+                        <Icon name="github" type="font-awesome" size={25} />
+                        <Text
+                          onPress={() =>
+                            Linking.openURL("https://github.com/naman-gurnaaz")
+                          }
+                        >
+                          naman-gurnaaz
+                        </Text>
+                      </ListItem>
+                      <ListItem>
+                        <Icon name="instagram" type="font-awesome" size={25} />
+                        <Text
+                          onPress={() =>
+                            Linking.openURL(
+                              "https://instagram.com/naman_gurnaaz/"
+                            )
+                          }
+                        >
+                          @naman_gurnaaz
+                        </Text>
+                      </ListItem>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>
@@ -264,6 +299,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     justifyContent: "center",
     elevation: 5,
+  },
+  aboutus: {
+    fontSize: 20,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  auimage: {
+    borderRadius: 45,
+    height: 90,
+    width: 90,
+    margin: 10,
   },
 });
 

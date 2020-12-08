@@ -1,4 +1,4 @@
-import Firebase from "firebase";
+import * as firebase from "firebase";
 
 let config = {
   apiKey: "AIzaSyCOrCKRwAsOcbvobIc-hTIMkylSg6U_fPo",
@@ -11,5 +11,5 @@ let config = {
   measurementId: "G-XPPFWWYSF0",
 };
 
-let app = Firebase.initializeApp(config);
+let app = firebase.default.initializeApp(config);
 export const db = app.database();
