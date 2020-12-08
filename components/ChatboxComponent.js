@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { db } from "../config";
-import * as firebase from "firebase"
+import * as firebase from "firebase";
 
 let addMessage = (text) => {
   db.ref("/messages").push({
@@ -32,9 +32,10 @@ class Chatbox extends Component {
   componentDidMount() {
     messagesRef.on("value", (snapshot) => {
       let data = snapshot.val();
-      if(data) {
-      let messages = Object.values(data);
-      this.setState({ messages: messages });
+      if (data) {
+        let messages = Object.values(data);
+        this.setState({ messages: messages });
+        console.log(messages[0]);
       }
     });
   }
@@ -48,26 +49,30 @@ class Chatbox extends Component {
   handleSubmit = () => {
     if (this.state.message !== "") {
       addMessage(this.state.message);
-    //} else {
+      //} else {
       this.setState({ message: "" });
     }
   };
 
   listOfMessages = () => {
     return this.state.messages.map((element) => {
-      firebase.auth().onAuthStateChanged(function(user) {
+      firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           return (
             <View style={styles.bubble}>
-              <Text style={{ fontSize: 10, color: "green" }}>{element.user}</Text>
+              <Text style={{ fontSize: 10, color: "green" }}>
+                {element.user}
+              </Text>
               <View style={{ borderWidth: 0.6 }}></View>
               <Text>{element.text}</Text>
             </View>
           );
-        } else if (!user)  /*if (element.user === "Naman")*/ {
-          return (
+        } else if (!user) {
+          /*if (element.user === "Naman")*/ return (
             <View style={styles.bubble2}>
-              <Text style={{ fontSize: 10, color: "green" }}>{element.user}</Text>
+              <Text style={{ fontSize: 10, color: "green" }}>
+                {element.user}
+              </Text>
               <View style={{ borderWidth: 0.6 }}></View>
               <Text>{element.text}</Text>
             </View>
@@ -79,7 +84,7 @@ class Chatbox extends Component {
             </View>
           );
         }
-      })
+      });
     });
   };
 
@@ -98,7 +103,9 @@ class Chatbox extends Component {
               placeholder="Type a message"
               style={styles.messages}
               //onChangeText={this.handleOnChange}
-              onChangeText= {(message) => {this.setState( {message} )}}
+              onChangeText={(message) => {
+                this.setState({ message });
+              }}
               returnKeyType="send"
             />
 
